@@ -41,3 +41,4 @@
 1. When you're done, `Ctrl-C` in the main `docker-compose up` window to terminate the running processes.
 
 1. Run `docker-compose down` to stop and remove containers.
+
