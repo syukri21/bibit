@@ -8,6 +8,7 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/sarulabs/di"
+	"net/http"
 )
 
 type MovieGRPCImpl struct {
@@ -15,7 +16,7 @@ type MovieGRPCImpl struct {
 }
 
 func (m MovieGRPCImpl) Search(_ context.Context, params *proto.MoviesSearchParams) (payloads *proto.MoviesSearchResult, err error) {
-	result, code, err := m.service.Movie.Search(model.MoviesSearchParams{
+	result, _, err := m.service.Movie.Search(model.MoviesSearchParams{
 		Search: params.Search,
 		Page:   int(params.Page),
 	})
@@ -38,7 +39,7 @@ func (m MovieGRPCImpl) Search(_ context.Context, params *proto.MoviesSearchParam
 
 	return &proto.MoviesSearchResult{
 		Data:    *data,
-		Code:    int64(code),
+		Code:    int64(http.StatusOK),
 		Message: "OK",
 		Meta: &proto.MetaMoviesSearchResult{
 			TotalResults: result.TotalResults,
@@ -48,7 +49,7 @@ func (m MovieGRPCImpl) Search(_ context.Context, params *proto.MoviesSearchParam
 }
 
 func (m MovieGRPCImpl) GetDetail(_ context.Context, params *proto.MoviesGetDetailParams) (payload *proto.MovieDetailResult, err error) {
-	result, code, err := m.service.Movie.GetDetail(model.MoviesGetDetailParams{
+	result, _, err := m.service.Movie.GetDetail(model.MoviesGetDetailParams{
 		ID: params.ID,
 	})
 	if err != nil {
@@ -63,9 +64,12 @@ func (m MovieGRPCImpl) GetDetail(_ context.Context, params *proto.MoviesGetDetai
 	}
 
 	err = json.Unmarshal(jsonByte, data)
+	if err != nil {
+		return nil, err
+	}
 	return &proto.MovieDetailResult{
 		Data:    data,
-		Code:    int64(code),
+		Code:    int64(http.StatusOK),
 		Message: "OK",
 		Meta:    nil,
 	}, nil

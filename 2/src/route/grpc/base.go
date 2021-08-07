@@ -37,8 +37,10 @@ func (r *GRPC) Serve(server *googleGrpc.Server) {
 		port = "1333"
 	}
 	l, err := net.Listen("tcp", port)
+
 	if err != nil {
 		log.Fatalf("could not listen to %s: %v", port, err)
 	}
+
 	log.Fatal(server.Serve(l))
 }

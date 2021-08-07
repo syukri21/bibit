@@ -57,8 +57,8 @@ message MovieDetailResponse {
   string BoxOffice = 21;
   string Production = 22;
   string Website = 23;
-  string Response = 24;
-  repeated Rating list = 25;
+  bool Response = 24;
+  Rating Ratings = 25;
 }
 
 message MoviesSearchParams {
