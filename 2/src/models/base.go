@@ -5,4 +5,5 @@ type GenericRes struct {
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
 	Error   interface{} `json:"error"`
+	Meta    interface{} `json:"meta"`
 }

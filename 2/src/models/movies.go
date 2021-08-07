@@ -17,8 +17,8 @@ type MoviesSearchResponse struct {
 		Type   string `json:"Type"`
 		Poster string `json:"Poster"`
 	} `json:"Search"`
-	TotalResults string `json:"totalResults"`
-	Response     string `json:"Response"`
+	TotalResults int64              `json:"totalResults,string"`
+	Response     ConvertibleBoolean `json:"Response,string"`
 }
 
 type MovieDetailResponse struct {
@@ -40,14 +40,14 @@ type MovieDetailResponse struct {
 		Source string `json:"Source"`
 		Value  string `json:"Value"`
 	} `json:"Ratings"`
-	Metascore  string `json:"Metascore"`
-	ImdbRating string `json:"imdbRating"`
-	ImdbVotes  string `json:"imdbVotes"`
-	ImdbID     string `json:"imdbID"`
-	Type       string `json:"Type"`
-	DVD        string `json:"DVD"`
-	BoxOffice  string `json:"BoxOffice"`
-	Production string `json:"Production"`
-	Website    string `json:"Website"`
-	Response   string `json:"Response"`
+	Metascore  string             `json:"Metascore"`
+	ImdbRating string             `json:"imdbRating"`
+	ImdbVotes  string             `json:"imdbVotes"`
+	ImdbID     string             `json:"imdbID"`
+	Type       string             `json:"Type"`
+	DVD        string             `json:"DVD"`
+	BoxOffice  string             `json:"BoxOffice"`
+	Production string             `json:"Production"`
+	Website    string             `json:"Website"`
+	Response   ConvertibleBoolean `json:"Response"`
 }

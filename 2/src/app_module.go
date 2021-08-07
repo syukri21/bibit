@@ -6,6 +6,7 @@ import (
 	"bibit-test/src/repositories"
 	"bibit-test/src/services"
 	"bibit-test/src/utils/proxy"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/sarulabs/di"
 	"os"
@@ -14,6 +15,7 @@ import (
 type Module struct{}
 
 func (m *Module) New(e *echo.Echo) {
+	_ = godotenv.Load(".env")
 	ioc := m.NewIOC()
 	s := NewApp(ioc)
 	s.http.Run(e)
@@ -25,9 +27,9 @@ func (m *Module) NewIOC() di.Container {
 	_ = builder.Add(di.Def{
 		Name: constants.PROXY_OMDBAPI,
 		Build: func(ctn di.Container) (interface{}, error) {
-			url, _ := os.LookupEnv("PROXY_OMDBAPI_URL")
-			credential, _ := os.LookupEnv("PROXY_OMDBAPI_CREDENTIAL")
-			return proxy.Create(url, credential), nil
+			host := os.Getenv("PROXY_OMDBAPI_URL")
+			credential := os.Getenv("PROXY_OMDBAPI_CREDENTIAL")
+			return proxy.Create(host, credential), nil
 		},
 	})
 

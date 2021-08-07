@@ -1,6 +1,8 @@
 package controllers
 
-import "github.com/sarulabs/di"
+import (
+	"github.com/sarulabs/di"
+)
 
 type Controller struct {
 	MovieHttp MovieHTTP
