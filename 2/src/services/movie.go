@@ -2,7 +2,7 @@ package services
 
 import (
 	"bibit-test/src/constants"
-	"bibit-test/src/models"
+	"bibit-test/src/models/model"
 	"bibit-test/src/repositories"
 	"errors"
 	"github.com/sarulabs/di"
@@ -10,16 +10,16 @@ import (
 )
 
 type Movie interface {
-	Search(params models.MoviesSearchParams) (result *models.MoviesSearchResponse, code int, err error)
-	GetDetail(params models.MoviesGetDetailParams) (result *models.MovieDetailResponse, code int, err error)
-	GetDetailMany(params map[string][]string) (result *[]models.MovieDetailResponse, code int, err error)
+	Search(params model.MoviesSearchParams) (result *model.MoviesSearchResponse, code int, err error)
+	GetDetail(params model.MoviesGetDetailParams) (result *model.MovieDetailResponse, code int, err error)
+	GetDetailMany(params map[string][]string) (result *[]model.MovieDetailResponse, code int, err error)
 }
 
 type MovieImpl struct {
 	repository *repositories.Repository
 }
 
-func (m *MovieImpl) Search(params models.MoviesSearchParams) (result *models.MoviesSearchResponse, code int, err error) {
+func (m *MovieImpl) Search(params model.MoviesSearchParams) (result *model.MoviesSearchResponse, code int, err error) {
 	result, err = m.repository.Movie.Search(params)
 	if err != nil {
 		code = http.StatusBadGateway
@@ -33,7 +33,7 @@ func (m *MovieImpl) Search(params models.MoviesSearchParams) (result *models.Mov
 	return
 }
 
-func (m *MovieImpl) GetDetail(params models.MoviesGetDetailParams) (result *models.MovieDetailResponse, code int, err error) {
+func (m *MovieImpl) GetDetail(params model.MoviesGetDetailParams) (result *model.MovieDetailResponse, code int, err error) {
 	result, err = m.repository.Movie.GetDetail(params)
 	if err != nil {
 		code = http.StatusBadGateway
@@ -47,7 +47,7 @@ func (m *MovieImpl) GetDetail(params models.MoviesGetDetailParams) (result *mode
 	return
 }
 
-func (m *MovieImpl) GetDetailMany(params map[string][]string) (result *[]models.MovieDetailResponse, code int, err error) {
+func (m *MovieImpl) GetDetailMany(map[string][]string) (result *[]model.MovieDetailResponse, code int, err error) {
 	panic("implement me")
 }
 

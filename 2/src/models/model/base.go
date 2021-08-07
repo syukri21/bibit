@@ -1,4 +1,4 @@
-package models
+package model
 
 type GenericRes struct {
 	Code    int         `json:"code"`

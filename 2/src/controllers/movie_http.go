@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"bibit-test/src/constants"
-	"bibit-test/src/models"
+	"bibit-test/src/models/model"
 	"bibit-test/src/services"
 	"github.com/labstack/echo/v4"
 	"github.com/sarulabs/di"
@@ -21,7 +21,7 @@ type MovieHTTPImpl struct {
 
 func (m MovieHTTPImpl) GetDetail(ctx echo.Context) error {
 	id := ctx.Param("id")
-	result, code, err := m.service.Movie.GetDetail(models.MoviesGetDetailParams{
+	result, code, err := m.service.Movie.GetDetail(model.MoviesGetDetailParams{
 		ID: id,
 	})
 
@@ -29,7 +29,7 @@ func (m MovieHTTPImpl) GetDetail(ctx echo.Context) error {
 		return echo.NewHTTPError(code, err.Error())
 	}
 
-	return ctx.JSON(http.StatusOK, models.GenericRes{
+	return ctx.JSON(http.StatusOK, model.GenericRes{
 		Code:    http.StatusOK,
 		Message: "OK",
 		Data:    result,
@@ -48,7 +48,7 @@ func (m MovieHTTPImpl) Search(ctx echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "Parameters Page Invalid!!!")
 	}
 
-	result, code, err := m.service.Movie.Search(models.MoviesSearchParams{
+	result, code, err := m.service.Movie.Search(model.MoviesSearchParams{
 		Search: search,
 		Page:   int(pageInt),
 	})
@@ -57,7 +57,7 @@ func (m MovieHTTPImpl) Search(ctx echo.Context) error {
 		return echo.NewHTTPError(code, err.Error())
 	}
 
-	return ctx.JSON(http.StatusOK, models.GenericRes{
+	return ctx.JSON(http.StatusOK, model.GenericRes{
 		Code:    http.StatusOK,
 		Message: "OK",
 		Data:    result.Search,

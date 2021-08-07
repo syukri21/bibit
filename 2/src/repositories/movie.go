@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"bibit-test/src/constants"
-	"bibit-test/src/models"
+	"bibit-test/src/models/model"
 	"bibit-test/src/utils/proxy"
 	"encoding/json"
 	"github.com/sarulabs/di"
@@ -10,15 +10,15 @@ import (
 )
 
 type Movie interface {
-	Search(params models.MoviesSearchParams) (*models.MoviesSearchResponse, error)
-	GetDetail(params models.MoviesGetDetailParams) (*models.MovieDetailResponse, error)
+	Search(params model.MoviesSearchParams) (*model.MoviesSearchResponse, error)
+	GetDetail(params model.MoviesGetDetailParams) (*model.MovieDetailResponse, error)
 }
 
 type MovieImpl struct {
 	omdbapi *proxy.Proxy
 }
 
-func (m MovieImpl) GetDetail(params models.MoviesGetDetailParams) (result *models.MovieDetailResponse, err error) {
+func (m MovieImpl) GetDetail(params model.MoviesGetDetailParams) (result *model.MovieDetailResponse, err error) {
 	bytes, err := m.omdbapi.Query(map[string]string{
 		"i": params.ID,
 	}).Get()
@@ -30,7 +30,7 @@ func (m MovieImpl) GetDetail(params models.MoviesGetDetailParams) (result *model
 	return
 }
 
-func (m MovieImpl) Search(params models.MoviesSearchParams) (result *models.MoviesSearchResponse, err error) {
+func (m MovieImpl) Search(params model.MoviesSearchParams) (result *model.MoviesSearchResponse, err error) {
 	bytes, err := m.omdbapi.Query(map[string]string{
 		"s":    params.Search,
 		"page": strconv.Itoa(params.Page),

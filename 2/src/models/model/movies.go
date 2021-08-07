@@ -1,4 +1,4 @@
-package models
+package model
 
 type MoviesSearchParams struct {
 	Search string `json:"search" validate:"required"`

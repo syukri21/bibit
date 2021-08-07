@@ -14,11 +14,13 @@ import (
 
 type Module struct{}
 
-func (m *Module) New(e *echo.Echo) {
+func (m *Module) New(*echo.Echo) {
 	_ = godotenv.Load(".env")
 	ioc := m.NewIOC()
+
 	s := NewApp(ioc)
-	s.http.Run(e)
+	//s.http.Run(e)
+	s.grpc.Run()
 }
 
 func (m *Module) NewIOC() di.Container {
