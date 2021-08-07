@@ -1,48 +1,18 @@
 package main
 
 import (
-	middlewares "bibit-test/src/middlwares"
-	"bibit-test/src/models"
-	"github.com/go-playground/validator/v10"
-	"github.com/labstack/echo/v4"
+	"bibit-test/src/controllers"
+	"bibit-test/src/route/http"
 	"github.com/sarulabs/di"
-	"net/http"
 )
 
-type AppService struct {
+type App struct {
+	http       *http.Route
+	controller *controllers.Controller
 }
 
-func NewAppService(ioc di.Container) AppService {
-	return AppService{}
-}
-
-func (s AppService) NewRoute(e *echo.Echo) {
-	e.Validator = middlewares.NewValidator(validator.New())
-	e.HTTPErrorHandler = middlewares.ErrorHandler
-
-	g := e.Group("")
-	s.HealthRoute(g)
-	s.NotFoundRoute(g)
-}
-
-func (*AppService) HealthRoute(g *echo.Group) {
-	{
-		g.GET("/health", func(c echo.Context) error {
-			return c.JSON(http.StatusOK, models.GenericRes{
-				Code:    http.StatusOK,
-				Message: "OK.",
-			})
-		})
-	}
-}
-
-func (*AppService) NotFoundRoute(g *echo.Group) {
-	{
-		g.Any("*", func(c echo.Context) error {
-			return c.JSON(http.StatusOK, models.GenericRes{
-				Code:    http.StatusNotFound,
-				Message: "Route not found.",
-			})
-		})
+func NewApp(ioc di.Container) App {
+	return App{
+		http: http.NewRoute(ioc),
 	}
 }
