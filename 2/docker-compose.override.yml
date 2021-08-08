@@ -1,9 +1,15 @@
 version: "3.8"
 
 services:
-  app:
+  app_grpc:
     build:
       target: dev
-  app_migration:
+    environment:
+      - GRPC=true
+    ports:
+      - 1313:1313
+  app_http:
     build:
       target: dev
+    ports:
+      - 1323:1323

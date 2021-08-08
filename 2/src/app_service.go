@@ -14,8 +14,11 @@ type App struct {
 }
 
 func NewApp(ioc di.Container) App {
+	httpApp := http.New(ioc)
+	grpcApp := grpc.New(ioc)
+
 	return App{
-		http: http.New(ioc),
-		grpc: grpc.New(ioc),
+		http: httpApp,
+		grpc: grpcApp,
 	}
 }

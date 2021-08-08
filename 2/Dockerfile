@@ -14,8 +14,6 @@ RUN go mod download
 
 COPY . .
 
-EXPOSE 1323
-
 CMD ["make", "dev"]
 
 # builder image
@@ -41,7 +39,5 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/db ./db
 COPY --from=builder /app/Makefile ./Makefile
-
-EXPOSE 1323
 
 CMD ["make", "start"]

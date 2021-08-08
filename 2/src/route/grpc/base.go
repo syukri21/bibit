@@ -13,19 +13,19 @@ import (
 
 type GRPC struct {
 	ioc        di.Container
-	controller *controllers.Controller
+	Controller *controllers.Controller
 }
 
 func New(ioc di.Container) *GRPC {
 	return &GRPC{
-		controller: ioc.Get(constants.CONTROLLER).(*controllers.Controller),
+		Controller: ioc.Get(constants.CONTROLLER).(*controllers.Controller),
 	}
 }
 
 func (r *GRPC) Run() {
 	server := googleGrpc.NewServer()
 
-	service := r.controller.MovieGRPC
+	service := r.Controller.MovieGRPC
 	proto.RegisterMoviesServer(server, service)
 
 	r.Serve(server)
@@ -34,13 +34,18 @@ func (r *GRPC) Run() {
 func (r *GRPC) Serve(server *googleGrpc.Server) {
 	port, found := os.LookupEnv("GRPC_PORT")
 	if !found {
-		port = "1333"
+		port = "8000"
 	}
-	l, err := net.Listen("tcp", port)
+	listener, err := net.Listen("tcp", port)
 
 	if err != nil {
 		log.Fatalf("could not listen to %s: %v", port, err)
 	}
+	log.Printf("Listenting in %s", port)
 
-	log.Fatal(server.Serve(l))
+	err = server.Serve(listener)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }

@@ -1,34 +1,40 @@
 version: "3.8"
 
 services:
-  app:
+  app_grpc:
     build:
       dockerfile: Dockerfile
       context: .
     command: sh -c "make dev"
     depends_on:
-      - app_migration
+      - postgres
     restart: on-failure
     volumes:
-      - type: bind
-        source: .
+      - type: volume
+        source: app_grpc_volume
+        target: /app
+    env_file:
+      - .env
+    environment:
+      - GRPC=true
+    ports:
+      - 1313:1313
+  app_http:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command: sh -c "make dev"
+    depends_on:
+      - postgres
+    restart: on-failure
+    volumes:
+      - type: volume
+        source: app_http_volume
         target: /app
     env_file:
       - .env
     ports:
-      - ${PORT}:${PORT}
-
-  app_migration:
-    build:
-      dockerfile: Dockerfile
-      context: .
-    command: sh -c "make migrate"
-    depends_on:
-      - postgres
-    restart: on-failure
-    env_file:
-      - .env
-
+      - 1323:1323
   postgres:
     image: postgres:11
     restart: on-failure
@@ -46,3 +52,5 @@ services:
 
 volumes:
   postgres_volume:
+  app_http_volume:
+  app_grpc_volume:

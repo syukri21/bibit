@@ -7,10 +7,10 @@ import (
 func (r *HTTP) MovieRoute(g *echo.Group) {
 	{
 		path := g.Group("/movies")
-		path.GET("", r.controller.MovieHttp.Search)
+		path.GET("", r.Controller.MovieHttp.Search)
 	}
 	{
 		path := g.Group("/movie")
-		path.GET("/:id", r.controller.MovieHttp.GetDetail)
+		path.GET("/:id", r.Controller.MovieHttp.GetDetail)
 	}
 }

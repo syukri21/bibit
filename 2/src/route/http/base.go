@@ -15,12 +15,12 @@ import (
 
 type HTTP struct {
 	ioc        di.Container
-	controller *controllers.Controller
+	Controller *controllers.Controller
 }
 
 func New(ioc di.Container) *HTTP {
 	return &HTTP{
-		controller: ioc.Get(constants.CONTROLLER).(*controllers.Controller),
+		Controller: ioc.Get(constants.CONTROLLER).(*controllers.Controller),
 	}
 }
 

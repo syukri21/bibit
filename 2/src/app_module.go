@@ -14,18 +14,14 @@ import (
 
 type Module struct{}
 
-func (m *Module) New(e *echo.Echo) {
+func (m *Module) New(*echo.Echo) App {
 	_ = godotenv.Load(".env")
 	ioc := m.NewIOC()
-
-	s := NewApp(ioc)
-	s.grpc.Run()
-	s.http.Run(e)
+	return NewApp(ioc)
 }
 
 func (m *Module) NewIOC() di.Container {
 	builder, _ := di.NewBuilder()
-
 	_ = builder.Add(di.Def{
 		Name: constants.PROXY_OMDBAPI,
 		Build: func(ctn di.Container) (interface{}, error) {
@@ -38,21 +34,21 @@ func (m *Module) NewIOC() di.Container {
 	_ = builder.Add(di.Def{
 		Name: constants.REPOSITORY,
 		Build: func(ctn di.Container) (interface{}, error) {
-			return repositories.NewRepository(builder.Build()), nil
+			return repositories.NewRepository(ctn), nil
 		},
 	})
 
 	_ = builder.Add(di.Def{
 		Name: constants.SERVICE,
 		Build: func(ctn di.Container) (interface{}, error) {
-			return services.NewService(builder.Build()), nil
+			return services.NewService(ctn), nil
 		},
 	})
 
 	_ = builder.Add(di.Def{
 		Name: constants.CONTROLLER,
 		Build: func(ctn di.Container) (interface{}, error) {
-			return controllers.NewController(builder.Build()), nil
+			return controllers.NewController(ctn), nil
 		},
 	})
 
