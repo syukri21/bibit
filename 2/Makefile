@@ -19,3 +19,7 @@ test:
 	go test -v -coverprofile ./coverage/cover.out ./...
 	go tool cover -html=./coverage/cover.out -o ./coverage/cover.html
 	open ./coverage/cover.html
+
+test_wind:
+	go test -v -coverprofile ./coverage/cover.out ./...
+	go tool cover -html=./coverage/cover.out -o ./coverage/cover.html

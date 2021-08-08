@@ -10,6 +10,7 @@ require (
 	github.com/rubenv/sql-migrate v0.0.0-20210614095031-55d5740dbbcc // indirect
 	github.com/sarulabs/di v2.0.0+incompatible
 	github.com/satori/go.uuid v1.2.0
+	github.com/stretchr/testify v1.6.1
 	google.golang.org/grpc v1.39.1
 	google.golang.org/protobuf v1.27.1
 	gorm.io/driver/postgres v1.1.0
