@@ -63,10 +63,8 @@ func (m MovieGRPCImpl) GetDetail(_ context.Context, params *proto.MoviesGetDetai
 		return nil, err
 	}
 
-	err = json.Unmarshal(jsonByte, data)
-	if err != nil {
-		return nil, err
-	}
+	_ = json.Unmarshal(jsonByte, data)
+
 	return &proto.MovieDetailResult{
 		Data:    data,
 		Code:    int64(http.StatusOK),

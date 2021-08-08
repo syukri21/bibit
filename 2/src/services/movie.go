@@ -4,6 +4,7 @@ import (
 	"bibit-test/src/constants"
 	"bibit-test/src/models/model"
 	"bibit-test/src/repositories"
+	"encoding/json"
 	"errors"
 	"github.com/sarulabs/di"
 	"net/http"
@@ -30,6 +31,14 @@ func (m *MovieImpl) Search(params model.MoviesSearchParams) (result *model.Movie
 		code = http.StatusNotFound
 		return
 	}
+
+	go func() {
+		data, _ := json.Marshal(result)
+		_ = m.repository.MovieLog.CreateSearchLog(&model.MovieSearchLog{
+			Data: data,
+		})
+	}()
+
 	return
 }
 
@@ -44,6 +53,14 @@ func (m *MovieImpl) GetDetail(params model.MoviesGetDetailParams) (result *model
 		code = http.StatusNotFound
 		return
 	}
+
+	defer func() {
+		data, _ := json.Marshal(result)
+		_ = m.repository.MovieLog.CreateGetDetailLog(&model.MovieGetDetailLog{
+			Data: data,
+		})
+	}()
+
 	return
 }
 

@@ -5,4 +5,5 @@ var (
 	REPOSITORY    = "repository"
 	SERVICE       = "service"
 	CONTROLLER    = "controller"
+	DATABASE      = "database"
 )

@@ -5,6 +5,7 @@ import (
 	"bibit-test/src/controllers"
 	"bibit-test/src/repositories"
 	"bibit-test/src/services"
+	"bibit-test/src/utils/databases"
 	"bibit-test/src/utils/proxy"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -28,6 +29,14 @@ func (m *Module) NewIOC() di.Container {
 			host := os.Getenv("PROXY_OMDBAPI_URL")
 			credential := os.Getenv("PROXY_OMDBAPI_CREDENTIAL")
 			return proxy.Create(host, credential), nil
+		},
+	})
+
+	_ = builder.Add(di.Def{
+		Name: constants.DATABASE,
+		Build: func(ctn di.Container) (interface{}, error) {
+			db, err := databases.Create()
+			return db, err
 		},
 	})
 

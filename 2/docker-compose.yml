@@ -12,6 +12,9 @@ services:
     volumes:
       - type: volume
         source: app_grpc_volume
+        target: /app/tmp
+      - type: bind
+        source: .
         target: /app
     env_file:
       - .env
@@ -30,6 +33,9 @@ services:
     volumes:
       - type: volume
         source: app_http_volume
+        target: /app/tmp
+      - type: bind
+        source: .
         target: /app
     env_file:
       - .env
@@ -39,7 +45,7 @@ services:
     image: postgres:11
     restart: on-failure
     ports:
-      - "1324:5432"
+      - "5432:5432"
     volumes:
       - type: volume
         source: postgres_volume
